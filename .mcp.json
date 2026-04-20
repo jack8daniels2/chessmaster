@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "chessmaster": {
+      "command": "op",
+      "args": ["run", "--", ".venv/bin/python", "server.py"],
+      "env": {
+        "LICHESS_TOKEN": "op://Personal/Lichess API/token"
+      }
+    }
+  }
+}
