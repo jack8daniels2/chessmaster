@@ -53,6 +53,7 @@ Pygments==2.20.0
 PyJWT==2.12.1
 pyperclip==1.11.0
 python-chess==1.999
+python-dotenv==1.2.2
 python-multipart==0.0.26
 PyYAML==6.0.3
 referencing==0.37.0
