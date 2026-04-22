@@ -10,13 +10,9 @@ from pathlib import Path
 import chess
 import chess.pgn
 import httpx
-from dotenv import load_dotenv
 from fastmcp import FastMCP
 from stockfish import Stockfish
 
-load_dotenv()
-
-LICHESS_TOKEN = os.getenv("LICHESS_TOKEN")
 LICHESS_BASE = "https://lichess.org"
 EXPLORER_BASE = "https://explorer.lichess.ovh"
 
@@ -70,10 +66,7 @@ _TTL_LIST  = 300    # 5 min — recent games lists (new games may arrive)
 # ---------------------------------------------------------------------------
 
 def _headers(ndjson: bool = True) -> dict:
-    h = {"Accept": "application/x-ndjson" if ndjson else "application/json"}
-    if LICHESS_TOKEN:
-        h["Authorization"] = f"Bearer {LICHESS_TOKEN}"
-    return h
+    return {"Accept": "application/x-ndjson" if ndjson else "application/json"}
 
 
 def _parse_ndjson(text: str) -> list[dict]:
@@ -564,13 +557,10 @@ async def fetch_and_analyse_game(
     pgn_key = f"pgn:{game_id}"
     pgn = _cache.get(pgn_key)  # permanent — games don't change
     if pgn is None:
-        pgn_headers = {"Accept": "application/x-chess-pgn"}
-        if LICHESS_TOKEN:
-            pgn_headers["Authorization"] = f"Bearer {LICHESS_TOKEN}"
         async with httpx.AsyncClient(base_url=LICHESS_BASE, timeout=30) as client:
             r = await client.get(
                 f"/game/export/{game_id}",
-                headers=pgn_headers,
+                headers={"Accept": "application/x-chess-pgn"},
                 params={"clocks": "true", "opening": "true", "literate": "false"},
             )
             r.raise_for_status()

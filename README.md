@@ -2,6 +2,14 @@
 
 An MCP server that connects Claude to your Lichess account for chess analysis and stats.
 
+## Example prompts
+
+- "What openings am I worst at as Black? Look at my last 200 rated blitz games"
+- "Where do I lose most of my games — opening, middlegame, or endgame? Analyse my last 20 games"
+- "Show me my blitz rating history — am I improving?"
+- "Fetch and analyse my last game, tell me my biggest mistakes"
+- "What does the Lichess explorer say about my win rate after 1.e4 as White?"
+
 ## Tools
 
 | Tool | Description |
@@ -26,15 +34,6 @@ pip install -r requirements.txt
 brew install stockfish  # macOS
 ```
 
-**Lichess token** (optional — raises rate limit from 20 → 60 req/s)
-
-Create a token at `https://lichess.org/account/oauth/token` (no scopes needed for public endpoints; add `puzzle:read` for puzzle activity).
-
-```bash
-cp .env.example .env
-# add your token to .env
-```
-
 **Running**
 
 ```bash
@@ -54,13 +53,8 @@ Add to your MCP client config (e.g. `.mcp.json`):
   "mcpServers": {
     "chessmaster": {
       "command": ".venv/bin/python",
-      "args": ["server.py"],
-      "env": {
-        "LICHESS_TOKEN": "<your-token>"
-      }
+      "args": ["server.py"]
     }
   }
 }
 ```
-
-The included `.mcp.json` uses [1Password CLI](https://developer.1password.com/docs/cli/) to inject the token at runtime — see `CLAUDE.md` for setup details.
