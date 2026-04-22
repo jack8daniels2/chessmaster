@@ -107,7 +107,7 @@ async def get_recent_games(
     max_games: int = 10,
     evals: bool = True,
     opening: bool = True,
-    analysed_only: bool = False,
+    analyzed_only: bool = False,
     perf_type: str | None = None,
     color: str | None = None,
     rated: bool | None = None,
@@ -117,9 +117,9 @@ async def get_recent_games(
     Args:
         username: Lichess username.
         max_games: Number of games to fetch (max 300).
-        evals: Include Lichess cloud evaluations (only present if game was analysed).
+        evals: Include Lichess cloud evaluations (only present if game was analyzed).
         opening: Include ECO code and opening name.
-        analysed_only: Only return games that have computer analysis.
+        analyzed_only: Only return games that have computer analysis.
         perf_type: Filter by time control: bullet, blitz, rapid, classical, correspondence.
         color: Filter by color played: white or black.
         rated: If set, filter rated (True) or casual (False) games only.
@@ -131,8 +131,8 @@ async def get_recent_games(
         "clocks": "true",
         "moves": "true",
     }
-    if analysed_only:
-        params["analysed"] = "true"
+    if analyzed_only:
+        params["analyzed"] = "true"
     if perf_type:
         params["perfType"] = perf_type
     if color:
@@ -410,8 +410,8 @@ async def get_puzzle_activity(max_puzzles: int = 50) -> list[dict]:
     return result
 
 
-def _analyse_game(pgn: str, username: str | None = None, depth: int = 18) -> dict:
-    """Core Stockfish analysis — called by both analyse_game and fetch_and_analyse_game."""
+def _analyze_game(pgn: str, username: str | None = None, depth: int = 18) -> dict:
+    """Core Stockfish analysis — called by both analyze_game and fetch_and_analyze_game."""
     game = chess.pgn.read_game(io.StringIO(pgn))
     if game is None:
         raise ValueError("Could not parse PGN")
@@ -501,7 +501,7 @@ def _analyse_game(pgn: str, username: str | None = None, depth: int = 18) -> dic
 
 
 @mcp.tool()
-def analyse_game(
+def analyze_game(
     pgn: str,
     username: str | None = None,
     depth: int = 18,
@@ -519,19 +519,19 @@ def analyse_game(
         username: If provided, highlight which side this player was on.
         depth: Stockfish search depth (default 18; higher = slower but more accurate).
     """
-    return _analyse_game(pgn, username=username, depth=depth)
+    return _analyze_game(pgn, username=username, depth=depth)
 
 
 @mcp.tool()
-async def fetch_and_analyse_game(
+async def fetch_and_analyze_game(
     game_id: str,
     username: str | None = None,
     depth: int = 18,
 ) -> dict:
-    """Fetch a Lichess game by ID and analyse it with local Stockfish.
+    """Fetch a Lichess game by ID and analyze it with local Stockfish.
 
     Combines game retrieval and move-by-move analysis in one call. Returns the
-    same structure as analyse_game: per-move evals, blunder/mistake/inaccuracy
+    same structure as analyze_game: per-move evals, blunder/mistake/inaccuracy
     classifications, and an accuracy summary for each player.
 
     Stockfish must be installed (`brew install stockfish` on Mac).
@@ -567,7 +567,7 @@ async def fetch_and_analyse_game(
         pgn = r.text
         _cache.set(pgn_key, pgn)
 
-    result = _analyse_game(pgn, username=username, depth=depth)
+    result = _analyze_game(pgn, username=username, depth=depth)
 
     # Guarantee url is set from game_id even if PGN Site header is absent
     if not result["game"].get("url"):

@@ -7,7 +7,7 @@ An MCP server that connects Claude to your Lichess account for chess analysis an
 - "What openings am I worst at as Black? Look at my last 200 rated blitz games"
 - "Where do I lose most of my games — opening, middlegame, or endgame? Analyse my last 20 games"
 - "Show me my blitz rating history — am I improving?"
-- "Fetch and analyse my last game, tell me my biggest mistakes"
+- "Fetch and analyze my last game, tell me my biggest mistakes"
 - "What does the Lichess explorer say about my win rate after 1.e4 as White?"
 
 ## Tools
@@ -20,8 +20,8 @@ An MCP server that connects Claude to your Lichess account for chess analysis an
 | `get_opening_stats` | Win/draw/loss rates by opening via the Lichess explorer |
 | `get_opening_performance` | Opening stats aggregated from your recent games |
 | `get_puzzle_activity` | Recent puzzle attempts |
-| `analyse_game` | Analyse a PGN with local Stockfish (blunders, mistakes, accuracy) |
-| `fetch_and_analyse_game` | Fetch a game by ID and analyse it in one call |
+| `analyze_game` | Analyse a PGN with local Stockfish (blunders, mistakes, accuracy) |
+| `fetch_and_analyze_game` | Fetch a game by ID and analyze it in one call |
 | `open_game` | Open a game in the browser |
 
 ## Setup
