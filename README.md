@@ -34,6 +34,15 @@ pip install -r requirements.txt
 brew install stockfish  # macOS
 ```
 
+**Lichess token** (optional — raises rate limit from 20 → 60 req/s)
+
+1. Create a token at `https://lichess.org/account/oauth/token` — no scopes needed (game export is a public endpoint).
+2. Store it in 1Password:
+   ```bash
+   op item create --category=login --title="Lichess API" --vault=Personal token=<paste-token-here>
+   ```
+3. Launch the server via `op run` (see `.mcp.json`) — it resolves the `op://Personal/Lichess API/token` reference and injects `LICHESS_TOKEN` at startup.
+
 **Running**
 
 ```bash
